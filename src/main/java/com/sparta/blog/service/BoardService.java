@@ -3,8 +3,8 @@ package com.sparta.blog.service;
 import com.sparta.blog.dto.BoardRequestDto;
 import com.sparta.blog.dto.BoardResponseDto;
 import com.sparta.blog.entity.Board;
+import com.sparta.blog.entity.User;
 import com.sparta.blog.repository.BoardRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,12 +38,9 @@ public class BoardService {
         return boardRepository.findAllByOrderByModifiedAtDesc().stream().map(BoardResponseDto::new).toList();
     }
     //생성
-    public BoardResponseDto createBoard(BoardRequestDto boardRequestDto) {
-        Board board = new Board(boardRequestDto);
-        Board saveBoard = boardRepository.save(board);
-        BoardResponseDto boardResponseDto = new BoardResponseDto(saveBoard);
-
-        return boardResponseDto;
+    public BoardResponseDto createBoard(BoardRequestDto boardRequestDto, User user) {
+        Board board = boardRepository.save(new Board(boardRequestDto, user));
+        return new BoardResponseDto(board);
     }
     //키워드 조회
 //    public List<BoardResponseDto> getBoardByKeyword(String keyword) {

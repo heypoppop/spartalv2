@@ -3,6 +3,7 @@ package com.sparta.blog.service;
 import com.sparta.blog.dto.SignupRequestDto;
 import com.sparta.blog.entity.User;
 import com.sparta.blog.entity.UserRoleEnum;
+import com.sparta.blog.jwt.JwtUtil;
 import com.sparta.blog.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

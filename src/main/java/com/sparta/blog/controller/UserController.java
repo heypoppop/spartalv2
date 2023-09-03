@@ -1,20 +1,23 @@
 package com.sparta.blog.controller;
 
+import com.sparta.blog.dto.LoginRequestDto;
 import com.sparta.blog.dto.SignupRequestDto;
+import com.sparta.blog.dto.UserInfoDto;
 import com.sparta.blog.entity.User;
+import com.sparta.blog.entity.UserRoleEnum;
 import com.sparta.blog.repository.UserRepository;
+import com.sparta.blog.security.UserDetailsImpl;
 import com.sparta.blog.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -53,6 +56,8 @@ public class UserController {
         // 성공 메세지
         return new ResponseEntity<>("상태코드 : " + HttpStatus.OK.value() + ", 메세지 : 회원가입 성공", HttpStatus.OK);
     }
+
+
 
 
 

@@ -1,7 +1,9 @@
 package com.sparta.blog.controller;
 import com.sparta.blog.dto.BoardRequestDto;
 import com.sparta.blog.dto.BoardResponseDto;
+import com.sparta.blog.security.UserDetailsImpl;
 import com.sparta.blog.service.BoardService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,8 +26,10 @@ public class BoardController {
 
     //게시글 작성
     @PostMapping("/board")
-    public BoardResponseDto createBoard(@RequestBody BoardRequestDto boardRequestDto) {
-        return boardService.createBoard(boardRequestDto);
+    public BoardResponseDto createBoard(
+            @RequestBody BoardRequestDto boardRequestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return boardService.createBoard(boardRequestDto, userDetails.getUser());
     }
 //    //게시글 키워드 조회
 //    @GetMapping("/board/contents")
