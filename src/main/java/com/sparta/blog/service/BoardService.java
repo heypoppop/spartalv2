@@ -5,6 +5,8 @@ import com.sparta.blog.dto.BoardResponseDto;
 import com.sparta.blog.entity.Board;
 import com.sparta.blog.entity.User;
 import com.sparta.blog.repository.BoardRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,44 +38,27 @@ public class BoardService {
         return new BoardResponseDto(board);
     }
 
-    // 게시물 수정
+    // 수정
     @Transactional
-    public void updateBoard(Long id, BoardRequestDto boardRequestDto, User user) throws IllegalArgumentException {
+    public ResponseEntity<String> updateBoard(Long id, BoardRequestDto boardRequestDto, User user) {
         Board board = findBoard(id);
-        if(board.getUser().getUsername().equals(user.getUsername())) {
-            board.update(boardRequestDto, user);
-        } else {
-            throw new IllegalArgumentException("선생님 게시물이 아닙니다.");
-        }
+        if (!board.getUser().getUsername().equals(user.getUsername())) {
+            return ResponseEntity.status(400).body("상태코드 : " + HttpStatus.BAD_REQUEST.value()  + " 메세지 : 선생님 게시물이 아닙니다.");}
+        board.update(boardRequestDto, user);
+        return ResponseEntity.status(200).body("상태코드 : " + HttpStatus.OK.value() + " 메세지 : 게시물 삭제 성공");
     }
 
-    //삭제
-    public void deleteBoard(Long id, User user) throws IllegalArgumentException {
+    // 삭제
+    public ResponseEntity<String> deleteBoard(Long id, User user) throws IllegalArgumentException {
         Board board = findBoard(id);
-        if(board.getUser().getUsername().equals(user.getUsername())) {
-            boardRepository.delete(board);
-        } else {
-            throw new IllegalArgumentException("선생님 게시물이 아닙니다.");
-        }
+        if(!board.getUser().getUsername().equals(user.getUsername())) {
+            return ResponseEntity.status(400).body("상태코드 : " + HttpStatus.BAD_REQUEST.value() + " 메세지 : 선생님 게시물이 아닙니다.");}
+        boardRepository.delete(board);
+        return ResponseEntity.status(200).body("상태코드 : " + HttpStatus.OK.value() + " 메세지 : 게시물 삭제 성공");
     }
-
-    //키워드 조회
-//    public List<BoardResponseDto> getBoardByKeyword(String keyword) {
-//        return boardRepository.findAllByContentsContainsOrderByModifiedAtDesc(keyword).stream().map(BoardResponseDto::new).toList();
-//    }
-
-
 
     // DB에서 찾기
     private Board findBoard(Long id) {
         return boardRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("선택한 게시글이 없습니다."));
     }
-
-//    private Board passwordCheck(Board board, String password) {
-//        if(board.getPassword().equals(password)) {
-//            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-//        } else {
-//            return board;
-//        }
-//    }
 }
