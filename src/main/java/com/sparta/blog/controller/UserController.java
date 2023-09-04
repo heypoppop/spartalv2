@@ -42,20 +42,6 @@ public class UserController {
                 return new ResponseEntity<>("상태코드 : " + HttpStatus.BAD_REQUEST.value() + ", 메세지 : " + fieldError.getDefaultMessage(), HttpStatus.BAD_REQUEST);
             }
         }
-        // 중복된 사용자 처리
-        String username = requestDto.getUsername();
-        Optional<User> checkUsername = userRepository.findByUsername(username);
-        if (checkUsername.isPresent()) {
-            String error = "중복된 사용자가 존재합니다.";
-            return new ResponseEntity<>("상태코드 : " + HttpStatus.BAD_REQUEST.value() + ", 메세지 : " + error, HttpStatus.BAD_REQUEST);
-        }
-
-        // 회원가입 진행
-        userService.signup(requestDto);
-
-        // 성공 메세지
-        return new ResponseEntity<>("상태코드 : " + HttpStatus.OK.value() + ", 메세지 : 회원가입 성공", HttpStatus.OK);
+        return userService.signup(requestDto);
     }
-
-
 }

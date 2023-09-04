@@ -45,7 +45,7 @@ public class BoardService {
         if (!board.getUser().getUsername().equals(user.getUsername())) {
             return ResponseEntity.status(400).body("상태코드 : " + HttpStatus.BAD_REQUEST.value()  + " 메세지 : 선생님 게시물이 아닙니다.");}
         board.update(boardRequestDto, user);
-        return ResponseEntity.status(200).body("상태코드 : " + HttpStatus.OK.value() + " 메세지 : 게시물 삭제 성공");
+        return ResponseEntity.status(200).body("상태코드 : " + HttpStatus.OK.value() + " 메세지 : 게시물 수정 성공");
     }
 
     // 삭제

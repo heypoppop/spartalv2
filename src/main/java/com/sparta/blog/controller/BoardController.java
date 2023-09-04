@@ -41,6 +41,7 @@ public class BoardController {
         return boardService.createBoard(boardRequestDto, userDetails.getUser());
     }
 
+
     // 수정
     @PutMapping("/board/{id}")
     public ResponseEntity<String> updateBoard(@PathVariable Long id, @RequestBody BoardRequestDto boardRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
